@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  title: API de Oficinas
+  version: 1.0.0
+  description: API para gerenciamento de oficinas.
+
+servers:
+  - url: http://localhost:8081
+
+paths:
+  /workshop:
+    post:
+      summary: Cadastra uma nova oficina
+      operationId: createWorkshop
+      tags:
+        - Workshop
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkshopRequest'
+      responses:
+        '201':
+          description: Oficina criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkshopResponse'
+
+components:
+  schemas:
+    WorkshopRequest:
+      type: object
+      required:
+        - nome
+        - cnpj
+        - cidade
+        - estado
+      properties:
+        nome:
+          type: string
+          example: "Oficina AutoTech"
+        cnpj:
+          type: string
+          example: "12.345.678/0001-99"
+        cidade:
+          type: string
+          example: "São Paulo"
+        estado:
+          type: string
+          example: "SP"
+    WorkshopResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        cnpj:
+          type: string
+        cidade:
+          type: string
+        estado:
+          type: string
+        ativa:
+          type: boolean
