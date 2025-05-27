@@ -20,4 +20,9 @@ public class WorkshopController implements WorkshopApi {
     public ResponseEntity<WorkshopResponse> createWorkshop(WorkshopRequest workshopRequest) {
         return workshopService.createWorkshop(workshopRequest);
     }
+
+    @Override
+    public ResponseEntity<WorkshopResponse> findWorkshop(Integer workshopId) {
+        return workshopService.findWorkshop(workshopId);
+    }
 }

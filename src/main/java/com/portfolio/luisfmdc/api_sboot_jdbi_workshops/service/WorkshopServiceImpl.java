@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class WorkshopServiceImpl implements WorkshopService {
 
@@ -25,5 +27,15 @@ public class WorkshopServiceImpl implements WorkshopService {
         workshop.setId(id);
         workshop.setAtiva(true);
         return ResponseEntity.status(HttpStatus.CREATED).body(WorkshopMapper.toResponse(workshop));
+    }
+
+    @Override
+    public ResponseEntity<WorkshopResponse> findWorkshop(Integer workshopId) {
+        Optional<Workshop> optionalWorkshop = workshopRepository.findWorkshop(workshopId);
+        if (optionalWorkshop.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Workshop workshop = optionalWorkshop.get();
+        return ResponseEntity.ok(WorkshopMapper.toResponse(workshop));
     }
 }

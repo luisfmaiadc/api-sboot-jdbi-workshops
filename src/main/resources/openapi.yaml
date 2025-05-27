@@ -28,6 +28,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/WorkshopResponse'
 
+  /workshop/{workshopId}:
+    get:
+      summary: Obter informações de uma oficina
+      operationId: findWorkshop
+      tags:
+        - Workshop
+      parameters:
+        - name: workshopId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Oficina encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkshopResponse'
+
 components:
   schemas:
     WorkshopRequest:

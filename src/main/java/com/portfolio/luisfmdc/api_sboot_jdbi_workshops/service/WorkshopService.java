@@ -8,4 +8,5 @@ public interface WorkshopService {
 
     ResponseEntity<WorkshopResponse> createWorkshop(WorkshopRequest workshopRequest);
 
+    ResponseEntity<WorkshopResponse> findWorkshop(Integer workshopId);
 }

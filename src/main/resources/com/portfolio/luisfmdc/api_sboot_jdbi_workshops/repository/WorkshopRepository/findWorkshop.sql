@@ -1,0 +1,1 @@
+SELECT * FROM TbOficina WHERE id = :id
