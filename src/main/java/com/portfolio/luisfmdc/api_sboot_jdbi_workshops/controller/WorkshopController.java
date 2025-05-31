@@ -2,9 +2,7 @@ package com.portfolio.luisfmdc.api_sboot_jdbi_workshops.controller;
 
 import com.portfolio.luisfmdc.api.WorkshopApi;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.service.WorkshopService;
-import com.portfolio.luisfmdc.model.WorkshopRequest;
-import com.portfolio.luisfmdc.model.WorkshopResponse;
-import com.portfolio.luisfmdc.model.WorkshopUpdateRequest;
+import com.portfolio.luisfmdc.model.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,5 +28,10 @@ public class WorkshopController implements WorkshopApi {
     @Override
     public ResponseEntity<WorkshopResponse> updateWorkshop(Integer workshopId, WorkshopUpdateRequest workshopUpdateRequest) {
         return workshopService.updateWorkshop(workshopUpdateRequest, workshopId);
+    }
+
+    @Override
+    public ResponseEntity<SpecialtyResponse> createSpecialty(SpecialtyRequest specialtyRequest) {
+        return workshopService.createSpecialty(specialtyRequest);
     }
 }

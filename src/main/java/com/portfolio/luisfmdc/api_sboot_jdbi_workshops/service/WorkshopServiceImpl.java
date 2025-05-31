@@ -1,11 +1,11 @@
 package com.portfolio.luisfmdc.api_sboot_jdbi_workshops.service;
 
+import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.mapper.SpecialtyMapper;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.mapper.WorkshopMapper;
+import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.model.Specialty;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.model.Workshop;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.repository.WorkshopRepository;
-import com.portfolio.luisfmdc.model.WorkshopRequest;
-import com.portfolio.luisfmdc.model.WorkshopResponse;
-import com.portfolio.luisfmdc.model.WorkshopUpdateRequest;
+import com.portfolio.luisfmdc.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -54,5 +54,13 @@ public class WorkshopServiceImpl implements WorkshopService {
         }
 
         return ResponseEntity.ok(WorkshopMapper.toResponse(workshop));
+    }
+
+    @Override
+    public ResponseEntity<SpecialtyResponse> createSpecialty(SpecialtyRequest specialtyRequest) {
+        Specialty specialty = SpecialtyMapper.toEntity(specialtyRequest);
+        int id = workshopRepository.insertNewSpecialty(specialty);
+        specialty.setId(id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(SpecialtyMapper.toResponse(specialty));
     }
 }

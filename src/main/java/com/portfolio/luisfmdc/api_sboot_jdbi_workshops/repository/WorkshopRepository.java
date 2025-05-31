@@ -1,5 +1,6 @@
 package com.portfolio.luisfmdc.api_sboot_jdbi_workshops.repository;
 
+import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.model.Specialty;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.model.Workshop;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
@@ -26,4 +27,8 @@ public interface WorkshopRepository {
 
     @SqlUpdate
     void updateWorkshop(@BindBean Workshop workshop);
+
+    @SqlUpdate
+    @GetGeneratedKeys
+    int insertNewSpecialty(@BindBean Specialty specialty);
 }

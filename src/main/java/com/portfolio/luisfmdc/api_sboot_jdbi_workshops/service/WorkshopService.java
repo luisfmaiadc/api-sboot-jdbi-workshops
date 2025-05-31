@@ -1,8 +1,6 @@
 package com.portfolio.luisfmdc.api_sboot_jdbi_workshops.service;
 
-import com.portfolio.luisfmdc.model.WorkshopRequest;
-import com.portfolio.luisfmdc.model.WorkshopResponse;
-import com.portfolio.luisfmdc.model.WorkshopUpdateRequest;
+import com.portfolio.luisfmdc.model.*;
 import org.springframework.http.ResponseEntity;
 
 public interface WorkshopService {
@@ -12,4 +10,6 @@ public interface WorkshopService {
     ResponseEntity<WorkshopResponse> findWorkshop(Integer workshopId);
 
     ResponseEntity<WorkshopResponse> updateWorkshop(WorkshopUpdateRequest workshopUpdateRequest, Integer workshopId);
+
+    ResponseEntity<SpecialtyResponse> createSpecialty(SpecialtyRequest specialtyRequest);
 }

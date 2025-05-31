@@ -73,6 +73,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/WorkshopResponse'
 
+  /workshop/specialty:
+    post:
+      summary: Cadastra uma nova especialidade
+      operationId: createSpecialty
+      tags:
+        - Specialty
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpecialtyRequest'
+      responses:
+        '201':
+          description: Especialidade criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpecialtyResponse'
+
 components:
   schemas:
     WorkshopRequest:
@@ -124,3 +144,17 @@ components:
           type: string
         ativa:
           type: boolean
+    SpecialtyRequest:
+      type: object
+      properties:
+        especialidade:
+          type: string
+          example: "Injeção Eletrônica"
+    SpecialtyResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        especialidade:
+          type: string
+          example: "Injeção Eletrônica"
