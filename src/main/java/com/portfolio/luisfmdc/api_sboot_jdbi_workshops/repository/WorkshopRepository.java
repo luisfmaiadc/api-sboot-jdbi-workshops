@@ -24,4 +24,6 @@ public interface WorkshopRepository {
     @RegisterBeanMapper(Workshop.class)
     Optional<Workshop> findWorkshop(@Bind("id") Integer id);
 
+    @SqlUpdate
+    void updateWorkshop(@BindBean Workshop workshop);
 }

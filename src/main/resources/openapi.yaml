@@ -48,6 +48,31 @@ paths:
               schema:
                 $ref: '#/components/schemas/WorkshopResponse'
 
+    put:
+      summary: Atualizar informações de uma oficina
+      operationId: updateWorkshop
+      tags:
+        - Workshop
+      parameters:
+        - name: workshopId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkshopUpdateRequest'
+      responses:
+        '200':
+          description: Oficina atualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkshopResponse'
+
 components:
   schemas:
     WorkshopRequest:
@@ -70,6 +95,20 @@ components:
         estado:
           type: string
           example: "SP"
+    WorkshopUpdateRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: "Oficina AutoTech"
+        cidade:
+          type: string
+          example: "São Paulo"
+        estado:
+          type: string
+          example: "SP"
+        ativa:
+          type: boolean
     WorkshopResponse:
       type: object
       properties:

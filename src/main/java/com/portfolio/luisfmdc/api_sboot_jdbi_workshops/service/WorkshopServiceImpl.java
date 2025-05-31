@@ -5,6 +5,7 @@ import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.model.Workshop;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.repository.WorkshopRepository;
 import com.portfolio.luisfmdc.model.WorkshopRequest;
 import com.portfolio.luisfmdc.model.WorkshopResponse;
+import com.portfolio.luisfmdc.model.WorkshopUpdateRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,22 @@ public class WorkshopServiceImpl implements WorkshopService {
             return ResponseEntity.notFound().build();
         }
         Workshop workshop = optionalWorkshop.get();
+        return ResponseEntity.ok(WorkshopMapper.toResponse(workshop));
+    }
+
+    @Override
+    public ResponseEntity<WorkshopResponse> updateWorkshop(WorkshopUpdateRequest workshopUpdateRequest, Integer workshopId) {
+        Optional<Workshop> optionalWorkshop = workshopRepository.findWorkshop(workshopId);
+        if (optionalWorkshop.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Workshop workshop = optionalWorkshop.get();
+        boolean isUpdateValid = workshop.updateWorkshop(workshopUpdateRequest);
+        if (isUpdateValid) {
+            workshopRepository.updateWorkshop(workshop);
+        }
+
         return ResponseEntity.ok(WorkshopMapper.toResponse(workshop));
     }
 }
