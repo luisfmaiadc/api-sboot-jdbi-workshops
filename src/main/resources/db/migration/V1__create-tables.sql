@@ -5,7 +5,9 @@ CREATE TABLE TbOficina (
     cidade VARCHAR(50) NOT NULL,
     estado CHAR(2) NOT NULL,
     ativa TINYINT NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    CHECK (CHAR_LENGTH(cnpj) = 14),
+    CHECK (CHAR_LENGTH(estado) = 2)
 );
 
 CREATE TABLE TbEspecialidade (
