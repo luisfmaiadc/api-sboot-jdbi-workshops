@@ -6,6 +6,8 @@ import com.portfolio.luisfmdc.model.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class WorkshopController implements WorkshopApi {
 
@@ -38,5 +40,15 @@ public class WorkshopController implements WorkshopApi {
     @Override
     public ResponseEntity<ManufacturerResponse> createManufacturer(ManufacturerRequest manufacturerRequest) {
         return workshopService.createManufacturer(manufacturerRequest);
+    }
+
+    @Override
+    public ResponseEntity<List<ManufacturerResponse>> findManufacturers() {
+        return workshopService.findManufacturers();
+    }
+
+    @Override
+    public ResponseEntity<List<SpecialtyResponse>> findSpecialties() {
+        return workshopService.findSpecialties();
     }
 }

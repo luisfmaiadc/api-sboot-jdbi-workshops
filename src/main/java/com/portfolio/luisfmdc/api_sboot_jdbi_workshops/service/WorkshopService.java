@@ -3,6 +3,8 @@ package com.portfolio.luisfmdc.api_sboot_jdbi_workshops.service;
 import com.portfolio.luisfmdc.model.*;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 public interface WorkshopService {
 
     ResponseEntity<WorkshopResponse> createWorkshop(WorkshopRequest workshopRequest);
@@ -14,4 +16,8 @@ public interface WorkshopService {
     ResponseEntity<SpecialtyResponse> createSpecialty(SpecialtyRequest specialtyRequest);
 
     ResponseEntity<ManufacturerResponse> createManufacturer(ManufacturerRequest manufacturerRequest);
+
+    ResponseEntity<List<ManufacturerResponse>> findManufacturers();
+
+    ResponseEntity<List<SpecialtyResponse>> findSpecialties();
 }

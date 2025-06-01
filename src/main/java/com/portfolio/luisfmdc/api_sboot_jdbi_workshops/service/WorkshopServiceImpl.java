@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -72,5 +74,27 @@ public class WorkshopServiceImpl implements WorkshopService {
         int id = workshopRepository.insertNewManufacturer(manufacturer);
         manufacturer.setId(id);
         return ResponseEntity.status(HttpStatus.CREATED).body(ManufacturerMapper.toResponse(manufacturer));
+    }
+
+    @Override
+    public ResponseEntity<List<ManufacturerResponse>> findManufacturers() {
+        List<Manufacturer> manufacturerList = workshopRepository.findManufacturers();
+        if (manufacturerList.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        List<ManufacturerResponse> manufacturerResponseList = new ArrayList<>();
+        manufacturerList.forEach(m -> manufacturerResponseList.add(ManufacturerMapper.toResponse(m)));
+        return ResponseEntity.ok(manufacturerResponseList);
+    }
+
+    @Override
+    public ResponseEntity<List<SpecialtyResponse>> findSpecialties() {
+        List<Specialty> specialtyList = workshopRepository.findSpecialties();
+        if (specialtyList.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        List<SpecialtyResponse> specialtyResponseList = new ArrayList<>();
+        specialtyList.forEach(s -> specialtyResponseList.add(SpecialtyMapper.toResponse(s)));
+        return ResponseEntity.ok(specialtyResponseList);
     }
 }

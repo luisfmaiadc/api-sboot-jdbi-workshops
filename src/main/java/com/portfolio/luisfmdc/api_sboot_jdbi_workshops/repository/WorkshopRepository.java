@@ -12,6 +12,7 @@ import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -36,4 +37,12 @@ public interface WorkshopRepository {
     @SqlUpdate
     @GetGeneratedKeys
     int insertNewManufacturer(@BindBean Manufacturer manufacturer);
+
+    @SqlQuery
+    @RegisterBeanMapper(Manufacturer.class)
+    List<Manufacturer> findManufacturers();
+
+    @SqlQuery
+    @RegisterBeanMapper(Specialty.class)
+    List<Specialty> findSpecialties();
 }
