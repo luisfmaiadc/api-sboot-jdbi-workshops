@@ -93,6 +93,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/SpecialtyResponse'
 
+  /workshop/manufacturer:
+    post:
+      summary: Cadastra uma nova fabricante
+      operationId: createManufacturer
+      tags:
+        - Manufacturer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManufacturerRequest'
+      responses:
+        '201':
+          description: Fabricante criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManufacturerResponse'
+
 components:
   schemas:
     WorkshopRequest:
@@ -157,4 +177,16 @@ components:
           type: integer
         especialidade:
           type: string
-          example: "Injeção Eletrônica"
+    ManufacturerRequest:
+      type: object
+      properties:
+        fabricante:
+          type: string
+          example: "Chevrolet"
+    ManufacturerResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        fabricante:
+          type: string

@@ -12,4 +12,6 @@ public interface WorkshopService {
     ResponseEntity<WorkshopResponse> updateWorkshop(WorkshopUpdateRequest workshopUpdateRequest, Integer workshopId);
 
     ResponseEntity<SpecialtyResponse> createSpecialty(SpecialtyRequest specialtyRequest);
+
+    ResponseEntity<ManufacturerResponse> createManufacturer(ManufacturerRequest manufacturerRequest);
 }

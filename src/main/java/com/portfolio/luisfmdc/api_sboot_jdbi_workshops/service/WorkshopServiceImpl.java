@@ -1,7 +1,9 @@
 package com.portfolio.luisfmdc.api_sboot_jdbi_workshops.service;
 
+import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.mapper.ManufacturerMapper;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.mapper.SpecialtyMapper;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.mapper.WorkshopMapper;
+import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.model.Manufacturer;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.model.Specialty;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.model.Workshop;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.repository.WorkshopRepository;
@@ -62,5 +64,13 @@ public class WorkshopServiceImpl implements WorkshopService {
         int id = workshopRepository.insertNewSpecialty(specialty);
         specialty.setId(id);
         return ResponseEntity.status(HttpStatus.CREATED).body(SpecialtyMapper.toResponse(specialty));
+    }
+
+    @Override
+    public ResponseEntity<ManufacturerResponse> createManufacturer(ManufacturerRequest manufacturerRequest) {
+        Manufacturer manufacturer = ManufacturerMapper.toEntity(manufacturerRequest);
+        int id = workshopRepository.insertNewManufacturer(manufacturer);
+        manufacturer.setId(id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ManufacturerMapper.toResponse(manufacturer));
     }
 }
