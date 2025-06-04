@@ -4,6 +4,9 @@ import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.model.Specialty;
 import com.portfolio.luisfmdc.model.SpecialtyRequest;
 import com.portfolio.luisfmdc.model.SpecialtyResponse;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SpecialtyMapper {
 
     public static Specialty toEntity(SpecialtyRequest specialtyRequest) {
@@ -16,5 +19,11 @@ public class SpecialtyMapper {
         return new SpecialtyResponse()
                 .id(specialty.getId())
                 .especialidade(specialty.getEspecialidade());
+    }
+
+    public static List<SpecialtyResponse> toResponseList(List<Specialty> specialtyList) {
+        List<SpecialtyResponse> specialtyResponseList = new ArrayList<>();
+        specialtyList.forEach(s -> specialtyResponseList.add(SpecialtyMapper.toResponse(s)));
+        return specialtyResponseList;
     }
 }

@@ -12,13 +12,13 @@ CREATE TABLE TbOficina (
 
 CREATE TABLE TbEspecialidade (
     id INT AUTO_INCREMENT,
-    especialidade VARCHAR(50) NOT NULL,
+    especialidade VARCHAR(50) UNIQUE NOT NULL,
     PRIMARY KEY(id)
 );
 
 CREATE TABLE TbFabricante (
     id INT AUTO_INCREMENT,
-    fabricante VARCHAR(75) NOT NULL,
+    fabricante VARCHAR(75) UNIQUE NOT NULL,
     PRIMARY KEY (id)
 );
 

@@ -45,4 +45,18 @@ public interface WorkshopRepository {
     @SqlQuery
     @RegisterBeanMapper(Specialty.class)
     List<Specialty> findSpecialties();
+
+    @SqlQuery
+    @RegisterBeanMapper(Specialty.class)
+    Optional<Specialty> findSpecialty(@Bind("id") Integer id);
+
+    @SqlQuery
+    List<Integer> findWorkshopSpecialty(@Bind("id") Integer id);
+
+    @SqlQuery
+    @RegisterBeanMapper(Specialty.class)
+    List<Specialty> findSpecialtiesByWorkshopId(@Bind("id") Integer id);
+
+    @SqlUpdate
+    void insertNewWorkshopSpecialty(@Bind("id_oficina") Integer idOficina, @Bind("id_especialidade") Integer idEspecialidade);
 }

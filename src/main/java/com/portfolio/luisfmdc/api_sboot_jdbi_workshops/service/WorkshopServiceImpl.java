@@ -12,9 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class WorkshopServiceImpl implements WorkshopService {
@@ -96,5 +94,28 @@ public class WorkshopServiceImpl implements WorkshopService {
         List<SpecialtyResponse> specialtyResponseList = new ArrayList<>();
         specialtyList.forEach(s -> specialtyResponseList.add(SpecialtyMapper.toResponse(s)));
         return ResponseEntity.ok(specialtyResponseList);
+    }
+
+    @Override
+    public ResponseEntity<WorkshopResponse> addWorkshopSpecialty(Integer workshopId, WorkshopSpecialtyRequest workshopSpecialtyRequest) {
+        Optional<Workshop> optionalWorkshop = workshopRepository.findWorkshop(workshopId);
+        Optional<Specialty> optionalSpecialty = workshopRepository.findSpecialty(workshopSpecialtyRequest.getIdEspecialidade());
+
+        if (optionalWorkshop.isEmpty() || optionalSpecialty.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Workshop workshop = optionalWorkshop.get();
+        Specialty specialty = optionalSpecialty.get();
+        List<Integer> existingSpecialtyIds = workshopRepository.findWorkshopSpecialty(workshop.getId());
+
+        if (!existingSpecialtyIds.contains(specialty.getId())) {
+            workshopRepository.insertNewWorkshopSpecialty(workshop.getId(), specialty.getId());
+        }
+
+        List<Specialty> specialtyList = workshopRepository.findSpecialtiesByWorkshopId(workshop.getId());
+        workshop.setSpecialtyList(specialtyList);
+
+        return ResponseEntity.ok(WorkshopMapper.toResponse(workshop));
     }
 }

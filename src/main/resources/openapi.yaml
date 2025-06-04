@@ -73,7 +73,33 @@ paths:
               schema:
                 $ref: '#/components/schemas/WorkshopResponse'
 
-  /workshop/specialty:
+  /workshop/{workshopId}/specialty:
+    post:
+      summary: Atribui uma especialidade a uma oficina
+      operationId: addWorkshopSpecialty
+      tags:
+        - Specialty
+      parameters:
+        - name: workshopId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkshopSpecialtyRequest'
+      responses:
+        '201':
+          description: Especialidade atribuida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkshopResponse'
+
+  /workshop/new/specialty:
     post:
       summary: Cadastra uma nova especialidade
       operationId: createSpecialty
@@ -93,6 +119,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SpecialtyResponse'
 
+  /workshop/specialty:
     get:
       summary: Lista de especialidades cadastradas
       operationId: findSpecialties
@@ -194,6 +221,14 @@ components:
           type: string
         ativa:
           type: boolean
+        fabricante:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManufacturerResponse'
+        especialidade:
+          type: array
+          items:
+            $ref: '#/components/schemas/SpecialtyResponse'
     SpecialtyRequest:
       type: object
       properties:
@@ -207,6 +242,11 @@ components:
           type: integer
         especialidade:
           type: string
+    WorkshopSpecialtyRequest:
+      type: object
+      properties:
+        idEspecialidade:
+          type: integer
     ManufacturerRequest:
       type: object
       properties:

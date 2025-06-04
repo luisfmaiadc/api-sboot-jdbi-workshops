@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Objects;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +18,8 @@ public class Workshop {
     private String cidade;
     private String estado;
     private Boolean ativa;
+    private List<Manufacturer> manufacturerList = new ArrayList<>();
+    private List<Specialty> specialtyList = new ArrayList<>();
 
     public Workshop(String nome, String cnpj, String cidade, String estado) {
         this.nome = nome;

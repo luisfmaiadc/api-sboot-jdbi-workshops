@@ -22,6 +22,8 @@ public class WorkshopMapper {
                 .cnpj(workshop.getCnpj())
                 .cidade(workshop.getCidade())
                 .estado(workshop.getEstado())
-                .ativa(workshop.getAtiva());
+                .ativa(workshop.getAtiva())
+                .especialidade(SpecialtyMapper.toResponseList(workshop.getSpecialtyList()))
+                .fabricante(null);
     }
 }

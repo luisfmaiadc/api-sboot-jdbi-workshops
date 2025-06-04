@@ -51,4 +51,9 @@ public class WorkshopController implements WorkshopApi {
     public ResponseEntity<List<SpecialtyResponse>> findSpecialties() {
         return workshopService.findSpecialties();
     }
+
+    @Override
+    public ResponseEntity<WorkshopResponse> addWorkshopSpecialty(Integer workshopId, WorkshopSpecialtyRequest workshopSpecialtyRequest) {
+        return workshopService.addWorkshopSpecialty(workshopId, workshopSpecialtyRequest);
+    }
 }
