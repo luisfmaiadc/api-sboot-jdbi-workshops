@@ -34,7 +34,7 @@ public class WorkshopServiceImpl implements WorkshopService {
 
     @Override
     public ResponseEntity<WorkshopResponse> findWorkshop(Integer workshopId) {
-        Optional<Workshop> optionalWorkshop = workshopRepository.findWorkshop(workshopId);
+        Optional<Workshop> optionalWorkshop = findWorkshopEntity(workshopId);
         if (optionalWorkshop.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -44,18 +44,51 @@ public class WorkshopServiceImpl implements WorkshopService {
 
     @Override
     public ResponseEntity<WorkshopResponse> updateWorkshop(WorkshopUpdateRequest workshopUpdateRequest, Integer workshopId) {
-        Optional<Workshop> optionalWorkshop = workshopRepository.findWorkshop(workshopId);
+        Optional<Workshop> optionalWorkshop = findWorkshopEntity(workshopId);
         if (optionalWorkshop.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
         Workshop workshop = optionalWorkshop.get();
-        boolean isUpdateValid = workshop.updateWorkshop(workshopUpdateRequest);
+        boolean isUpdateValid = isUpdateValid(workshop, workshopUpdateRequest);
         if (isUpdateValid) {
             workshopRepository.updateWorkshop(workshop);
         }
 
         return ResponseEntity.ok(WorkshopMapper.toResponse(workshop));
+    }
+
+    private boolean isUpdateValid(Workshop workshop, WorkshopUpdateRequest workshopUpdateRequest) {
+        boolean isUpdateValid = false;
+        if (workshopUpdateRequest.getNome() != null && !workshopUpdateRequest.getNome().isBlank()) {
+            if (!Objects.equals(workshopUpdateRequest.getNome(), workshop.getNome())) {
+                workshop.setNome(workshopUpdateRequest.getNome());
+                isUpdateValid = true;
+            }
+        }
+
+        if (workshopUpdateRequest.getCidade() != null && !workshopUpdateRequest.getCidade().isBlank()) {
+            if (!Objects.equals(workshopUpdateRequest.getCidade(), workshop.getCidade())) {
+                workshop.setCidade(workshopUpdateRequest.getCidade());
+                isUpdateValid = true;
+            }
+        }
+
+        if (workshopUpdateRequest.getEstado() != null && !workshopUpdateRequest.getEstado().isBlank()) {
+            if (!Objects.equals(workshopUpdateRequest.getEstado(), workshop.getEstado())) {
+                workshop.setEstado(workshopUpdateRequest.getEstado());
+                isUpdateValid = true;
+            }
+        }
+
+        if (workshopUpdateRequest.getAtiva() != null) {
+            if (!Objects.equals(workshopUpdateRequest.getAtiva(), workshop.getAtiva())) {
+                workshop.setAtiva(workshopUpdateRequest.getAtiva());
+                isUpdateValid = true;
+            }
+        }
+
+        return isUpdateValid;
     }
 
     @Override
@@ -80,9 +113,7 @@ public class WorkshopServiceImpl implements WorkshopService {
         if (manufacturerList.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        List<ManufacturerResponse> manufacturerResponseList = new ArrayList<>();
-        manufacturerList.forEach(m -> manufacturerResponseList.add(ManufacturerMapper.toResponse(m)));
-        return ResponseEntity.ok(manufacturerResponseList);
+        return ResponseEntity.ok(ManufacturerMapper.toResponseList(manufacturerList));
     }
 
     @Override
@@ -91,14 +122,12 @@ public class WorkshopServiceImpl implements WorkshopService {
         if (specialtyList.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        List<SpecialtyResponse> specialtyResponseList = new ArrayList<>();
-        specialtyList.forEach(s -> specialtyResponseList.add(SpecialtyMapper.toResponse(s)));
-        return ResponseEntity.ok(specialtyResponseList);
+        return ResponseEntity.ok(SpecialtyMapper.toResponseList(specialtyList));
     }
 
     @Override
     public ResponseEntity<WorkshopResponse> addWorkshopSpecialty(Integer workshopId, WorkshopSpecialtyRequest workshopSpecialtyRequest) {
-        Optional<Workshop> optionalWorkshop = workshopRepository.findWorkshop(workshopId);
+        Optional<Workshop> optionalWorkshop = findWorkshopEntity(workshopId);
         Optional<Specialty> optionalSpecialty = workshopRepository.findSpecialty(workshopSpecialtyRequest.getIdEspecialidade());
 
         if (optionalWorkshop.isEmpty() || optionalSpecialty.isEmpty()) {
@@ -107,15 +136,42 @@ public class WorkshopServiceImpl implements WorkshopService {
 
         Workshop workshop = optionalWorkshop.get();
         Specialty specialty = optionalSpecialty.get();
-        List<Integer> existingSpecialtyIds = workshopRepository.findWorkshopSpecialty(workshop.getId());
 
-        if (!existingSpecialtyIds.contains(specialty.getId())) {
+        if (!workshop.getSpecialtyList().contains(specialty)) {
             workshopRepository.insertNewWorkshopSpecialty(workshop.getId(), specialty.getId());
+            workshop.getSpecialtyList().add(specialty);
         }
 
-        List<Specialty> specialtyList = workshopRepository.findSpecialtiesByWorkshopId(workshop.getId());
-        workshop.setSpecialtyList(specialtyList);
+        return ResponseEntity.ok(WorkshopMapper.toResponse(workshop));
+    }
+
+    @Override
+    public ResponseEntity<WorkshopResponse> addWorkshopManufacturer(Integer workshopId, WorkshopManufacturerRequest workshopManufacturerRequest) {
+        Optional<Workshop> optionalWorkshop = findWorkshopEntity(workshopId);
+        Optional<Manufacturer> optionalManufacturer = workshopRepository.findManufacturer(workshopManufacturerRequest.getIdFabricante());
+
+        if (optionalWorkshop.isEmpty() || optionalManufacturer.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Workshop workshop = optionalWorkshop.get();
+        Manufacturer manufacturer = optionalManufacturer.get();
+
+        if (!workshop.getManufacturerList().contains(manufacturer)) {
+            workshopRepository.insertNewWorkshopManufacturer(workshop.getId(), manufacturer.getId());
+            workshop.getManufacturerList().add(manufacturer);
+        }
 
         return ResponseEntity.ok(WorkshopMapper.toResponse(workshop));
+    }
+
+    private Optional<Workshop> findWorkshopEntity(Integer workshopId) {
+        Optional<Workshop> optionalWorkshop = workshopRepository.findWorkshop(workshopId);
+        if (optionalWorkshop.isEmpty()) return Optional.empty();
+
+        Workshop workshop = optionalWorkshop.get();
+        workshop.setManufacturerList(workshopRepository.findManufacturersByWorkshopId(workshopId));
+        workshop.setSpecialtyList(workshopRepository.findSpecialtiesByWorkshopId(workshopId));
+        return Optional.of(workshop);
     }
 }

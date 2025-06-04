@@ -51,12 +51,20 @@ public interface WorkshopRepository {
     Optional<Specialty> findSpecialty(@Bind("id") Integer id);
 
     @SqlQuery
-    List<Integer> findWorkshopSpecialty(@Bind("id") Integer id);
-
-    @SqlQuery
     @RegisterBeanMapper(Specialty.class)
     List<Specialty> findSpecialtiesByWorkshopId(@Bind("id") Integer id);
 
     @SqlUpdate
     void insertNewWorkshopSpecialty(@Bind("id_oficina") Integer idOficina, @Bind("id_especialidade") Integer idEspecialidade);
+
+    @SqlQuery
+    @RegisterBeanMapper(Manufacturer.class)
+    Optional<Manufacturer> findManufacturer(@Bind("id") Integer id);
+
+    @SqlUpdate
+    void insertNewWorkshopManufacturer(@Bind("id_oficina") Integer idOficina, @Bind("id_fabricante") Integer idFabricante);
+
+    @SqlQuery
+    @RegisterBeanMapper(Manufacturer.class)
+    List<Manufacturer> findManufacturersByWorkshopId(@Bind("id") Integer id);
 }

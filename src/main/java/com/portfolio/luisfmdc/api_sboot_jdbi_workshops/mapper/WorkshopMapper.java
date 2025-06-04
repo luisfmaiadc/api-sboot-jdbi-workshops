@@ -24,6 +24,6 @@ public class WorkshopMapper {
                 .estado(workshop.getEstado())
                 .ativa(workshop.getAtiva())
                 .especialidade(SpecialtyMapper.toResponseList(workshop.getSpecialtyList()))
-                .fabricante(null);
+                .fabricante(ManufacturerMapper.toResponseList(workshop.getManufacturerList()));
     }
 }

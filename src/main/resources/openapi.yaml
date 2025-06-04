@@ -135,7 +135,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/SpecialtyResponse'
 
-  /workshop/manufacturer:
+  /workshop/new/manufacturer:
     post:
       summary: Cadastra uma nova fabricante
       operationId: createManufacturer
@@ -155,6 +155,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ManufacturerResponse'
 
+  /workshop/manufacturer:
     get:
       summary: Lista de fabricantes cadastradas
       operationId: findManufacturers
@@ -169,6 +170,32 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ManufacturerResponse'
+
+  /workshop/{workshopId}/manufacturer:
+    post:
+      summary: Atribui uma fabricante a uma oficina
+      operationId: addWorkshopManufacturer
+      tags:
+        - Manufacturer
+      parameters:
+        - name: workshopId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkshopManufacturerRequest'
+      responses:
+        '201':
+          description: Fabricante atribuida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkshopResponse'
 
 components:
   schemas:
@@ -260,3 +287,8 @@ components:
           type: integer
         fabricante:
           type: string
+    WorkshopManufacturerRequest:
+      type: object
+      properties:
+        idFabricante:
+          type: integer

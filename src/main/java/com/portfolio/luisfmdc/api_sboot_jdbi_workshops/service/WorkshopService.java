@@ -22,4 +22,6 @@ public interface WorkshopService {
     ResponseEntity<List<SpecialtyResponse>> findSpecialties();
 
     ResponseEntity<WorkshopResponse> addWorkshopSpecialty(Integer workshopId, WorkshopSpecialtyRequest workshopSpecialtyRequest);
+
+    ResponseEntity<WorkshopResponse> addWorkshopManufacturer(Integer workshopId, WorkshopManufacturerRequest workshopManufacturerRequest);
 }
