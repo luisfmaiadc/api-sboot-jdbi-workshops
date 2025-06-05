@@ -1,5 +1,6 @@
 INSERT INTO TbOficinaEspecialidade
 VALUES (
     :id_oficina,
-    :id_especialidade
+    :id_especialidade,
+    true
 )

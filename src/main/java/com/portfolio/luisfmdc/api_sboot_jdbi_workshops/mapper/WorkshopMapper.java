@@ -23,7 +23,7 @@ public class WorkshopMapper {
                 .cidade(workshop.getCidade())
                 .estado(workshop.getEstado())
                 .ativa(workshop.getAtiva())
-                .especialidade(SpecialtyMapper.toResponseList(workshop.getSpecialtyList()))
-                .fabricante(ManufacturerMapper.toResponseList(workshop.getManufacturerList()));
+                .especialidade(SpecialtyMapper.toResponseWorkshopList(workshop.getSpecialtyList()))
+                .fabricante(ManufacturerMapper.toResponseWorkshopList(workshop.getManufacturerList()));
     }
 }

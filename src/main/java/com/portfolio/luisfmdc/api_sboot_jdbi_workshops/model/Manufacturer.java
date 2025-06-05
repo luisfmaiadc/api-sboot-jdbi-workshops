@@ -15,6 +15,7 @@ public class Manufacturer {
     private Integer id;
 
     private String fabricante;
+    private Boolean ativa;
 
     public Manufacturer(String fabricante) {
         this.fabricante = fabricante;

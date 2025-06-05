@@ -251,11 +251,11 @@ components:
         fabricante:
           type: array
           items:
-            $ref: '#/components/schemas/ManufacturerResponse'
+            $ref: '#/components/schemas/WorkshopManufacturerResponse'
         especialidade:
           type: array
           items:
-            $ref: '#/components/schemas/SpecialtyResponse'
+            $ref: '#/components/schemas/WorkshopSpecialtyResponse'
     SpecialtyRequest:
       type: object
       properties:
@@ -274,6 +274,15 @@ components:
       properties:
         idEspecialidade:
           type: integer
+    WorkshopSpecialtyResponse:
+      type: object
+      properties:
+        idEspecialidade:
+          type: integer
+        especialidade:
+          type: string
+        ativa:
+          type: boolean
     ManufacturerRequest:
       type: object
       properties:
@@ -292,3 +301,12 @@ components:
       properties:
         idFabricante:
           type: integer
+    WorkshopManufacturerResponse:
+      type: object
+      properties:
+        idFabricante:
+          type: integer
+        fabricante:
+          type: string
+        ativa:
+          type: boolean

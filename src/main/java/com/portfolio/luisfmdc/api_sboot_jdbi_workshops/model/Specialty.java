@@ -15,6 +15,7 @@ public class Specialty {
     private Integer id;
 
     private String especialidade;
+    private Boolean ativa;
 
     public Specialty(String especialidade) {
         this.especialidade = especialidade;

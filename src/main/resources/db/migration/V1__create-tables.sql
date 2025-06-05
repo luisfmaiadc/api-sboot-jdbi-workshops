@@ -25,6 +25,7 @@ CREATE TABLE TbFabricante (
 CREATE TABLE TbOficinaEspecialidade (
     id_oficina INT,
     id_especialidade INT,
+    ativa TINYINT NOT NULL,
     PRIMARY KEY (id_oficina, id_especialidade),
     FOREIGN KEY (id_oficina) REFERENCES TbOficina(id),
     FOREIGN KEY (id_especialidade) REFERENCES TbEspecialidade(id)
@@ -33,6 +34,7 @@ CREATE TABLE TbOficinaEspecialidade (
 CREATE TABLE TbOficinaFabricante (
     id_oficina INT,
     id_fabricante INT,
+    ativa TINYINT NOT NULL,
     PRIMARY KEY (id_oficina, id_fabricante),
     FOREIGN KEY (id_oficina) REFERENCES TbOficina(id),
     FOREIGN KEY (id_fabricante) REFERENCES TbFabricante(id)

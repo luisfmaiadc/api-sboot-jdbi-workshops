@@ -128,17 +128,18 @@ public class WorkshopServiceImpl implements WorkshopService {
     @Override
     public ResponseEntity<WorkshopResponse> addWorkshopSpecialty(Integer workshopId, WorkshopSpecialtyRequest workshopSpecialtyRequest) {
         Optional<Workshop> optionalWorkshop = findWorkshopEntity(workshopId);
-        Optional<Specialty> optionalSpecialty = workshopRepository.findSpecialty(workshopSpecialtyRequest.getIdEspecialidade());
-
-        if (optionalWorkshop.isEmpty() || optionalSpecialty.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        if (optionalWorkshop.isEmpty()) return ResponseEntity.notFound().build();
 
         Workshop workshop = optionalWorkshop.get();
-        Specialty specialty = optionalSpecialty.get();
+        boolean alreadyAssigned = workshop.getSpecialtyList().stream().anyMatch(s -> Objects.equals(s.getId(), workshopSpecialtyRequest.getIdEspecialidade()));
 
-        if (!workshop.getSpecialtyList().contains(specialty)) {
+        if (!alreadyAssigned) {
+            Optional<Specialty> optionalSpecialty = workshopRepository.findSpecialty(workshopSpecialtyRequest.getIdEspecialidade());
+            if (optionalSpecialty.isEmpty()) return ResponseEntity.notFound().build();
+
+            Specialty specialty = optionalSpecialty.get();
             workshopRepository.insertNewWorkshopSpecialty(workshop.getId(), specialty.getId());
+            specialty.setAtiva(Boolean.TRUE);
             workshop.getSpecialtyList().add(specialty);
         }
 
@@ -148,17 +149,18 @@ public class WorkshopServiceImpl implements WorkshopService {
     @Override
     public ResponseEntity<WorkshopResponse> addWorkshopManufacturer(Integer workshopId, WorkshopManufacturerRequest workshopManufacturerRequest) {
         Optional<Workshop> optionalWorkshop = findWorkshopEntity(workshopId);
-        Optional<Manufacturer> optionalManufacturer = workshopRepository.findManufacturer(workshopManufacturerRequest.getIdFabricante());
-
-        if (optionalWorkshop.isEmpty() || optionalManufacturer.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        if (optionalWorkshop.isEmpty()) return ResponseEntity.notFound().build();
 
         Workshop workshop = optionalWorkshop.get();
-        Manufacturer manufacturer = optionalManufacturer.get();
+        boolean alreadyAssigned = workshop.getManufacturerList().stream().anyMatch(m -> Objects.equals(m.getId(), workshopManufacturerRequest.getIdFabricante()));
 
-        if (!workshop.getManufacturerList().contains(manufacturer)) {
+        if (!alreadyAssigned) {
+            Optional<Manufacturer> optionalManufacturer = workshopRepository.findManufacturer(workshopManufacturerRequest.getIdFabricante());
+            if (optionalManufacturer.isEmpty()) return ResponseEntity.notFound().build();
+
+            Manufacturer manufacturer = optionalManufacturer.get();
             workshopRepository.insertNewWorkshopManufacturer(workshop.getId(), manufacturer.getId());
+            manufacturer.setAtiva(Boolean.TRUE);
             workshop.getManufacturerList().add(manufacturer);
         }
 
