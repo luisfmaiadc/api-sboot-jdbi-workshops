@@ -67,4 +67,7 @@ public interface WorkshopRepository {
     @SqlQuery
     @RegisterBeanMapper(Manufacturer.class)
     List<Manufacturer> findManufacturersByWorkshopId(@Bind("id") Integer id);
+
+    @SqlUpdate
+    void updateWorkshopSpecialtyStatus(@Bind("ativa") Boolean ativa, @Bind("id_oficina") Integer idOficina, @Bind("id_especialidade") Integer idEspecialidade);
 }

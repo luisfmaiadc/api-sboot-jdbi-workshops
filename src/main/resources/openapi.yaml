@@ -99,6 +99,27 @@ paths:
               schema:
                 $ref: '#/components/schemas/WorkshopResponse'
 
+    put:
+      summary: Atualiza status da especialidade de uma oficina
+      operationId: updateWorkshopSpecialtyStatus
+      tags:
+        - Specialty
+      parameters:
+        - name: workshopId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateWorkshopSpecialtyRequest'
+      responses:
+        '204':
+          description: Especialidade atualizada
+
   /workshop/new/specialty:
     post:
       summary: Cadastra uma nova especialidade
@@ -281,6 +302,13 @@ components:
           type: integer
         especialidade:
           type: string
+        ativa:
+          type: boolean
+    UpdateWorkshopSpecialtyRequest:
+      type: object
+      properties:
+        idEspecialidade:
+          type: integer
         ativa:
           type: boolean
     ManufacturerRequest:

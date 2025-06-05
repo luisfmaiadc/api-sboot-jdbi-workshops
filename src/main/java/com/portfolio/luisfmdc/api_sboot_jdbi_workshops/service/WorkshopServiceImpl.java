@@ -167,6 +167,30 @@ public class WorkshopServiceImpl implements WorkshopService {
         return ResponseEntity.ok(WorkshopMapper.toResponse(workshop));
     }
 
+    @Override
+    public ResponseEntity<WorkshopResponse> updateWorkshopSpecialtyStatus(Integer workshopId, UpdateWorkshopSpecialtyRequest updateWorkshopSpecialtyRequest) {
+        Optional<Workshop> optionalWorkshop = findWorkshopEntity(workshopId);
+        if (optionalWorkshop.isEmpty()) return ResponseEntity.notFound().build();
+        Workshop workshop = optionalWorkshop.get();
+
+        Optional<Specialty> optionalSpecialty = workshop.getSpecialtyList().stream()
+                .filter(s -> Objects.equals(s.getId(), updateWorkshopSpecialtyRequest.getIdEspecialidade()))
+                .findFirst();
+
+        if (optionalSpecialty.isEmpty()) return ResponseEntity.notFound().build();
+        Specialty specialty = optionalSpecialty.get();
+
+        if (!Objects.equals(specialty.getAtiva(), updateWorkshopSpecialtyRequest.getAtiva())) {
+            workshopRepository.updateWorkshopSpecialtyStatus(
+                    updateWorkshopSpecialtyRequest.getAtiva(),
+                    workshopId,
+                    specialty.getId()
+            );
+        }
+
+        return ResponseEntity.noContent().build();
+    }
+
     private Optional<Workshop> findWorkshopEntity(Integer workshopId) {
         Optional<Workshop> optionalWorkshop = workshopRepository.findWorkshop(workshopId);
         if (optionalWorkshop.isEmpty()) return Optional.empty();
