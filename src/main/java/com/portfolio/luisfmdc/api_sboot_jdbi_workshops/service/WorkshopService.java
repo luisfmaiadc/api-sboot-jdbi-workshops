@@ -26,4 +26,6 @@ public interface WorkshopService {
     ResponseEntity<WorkshopResponse> addWorkshopManufacturer(Integer workshopId, WorkshopManufacturerRequest workshopManufacturerRequest);
 
     ResponseEntity<WorkshopResponse> updateWorkshopSpecialtyStatus(Integer workshopId, UpdateWorkshopSpecialtyRequest updateWorkshopSpecialtyRequest);
+
+    ResponseEntity updateWorkshopManufacturerStatus(Integer workshopId, UpdateWorkshopManufacturerRequest updateWorkshopManufacturerRequest);
 }

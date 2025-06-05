@@ -218,6 +218,27 @@ paths:
               schema:
                 $ref: '#/components/schemas/WorkshopResponse'
 
+    put:
+      summary: Atualiza status da fabricante de uma oficina
+      operationId: updateWorkshopManufacturerStatus
+      tags:
+        - Manufacturer
+      parameters:
+        - name: workshopId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateWorkshopManufacturerRequest'
+      responses:
+        '204':
+          description: Fabricante atualizada
+
 components:
   schemas:
     WorkshopRequest:
@@ -336,5 +357,12 @@ components:
           type: integer
         fabricante:
           type: string
+        ativa:
+          type: boolean
+    UpdateWorkshopManufacturerRequest:
+      type: object
+      properties:
+        idFabricante:
+          type: integer
         ativa:
           type: boolean

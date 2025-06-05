@@ -70,4 +70,7 @@ public interface WorkshopRepository {
 
     @SqlUpdate
     void updateWorkshopSpecialtyStatus(@Bind("ativa") Boolean ativa, @Bind("id_oficina") Integer idOficina, @Bind("id_especialidade") Integer idEspecialidade);
+
+    @SqlUpdate
+    void updateWorkshopManufacturerStatus(@Bind("ativa") Boolean ativa, @Bind("id_oficina") Integer idOficina, @Bind("id_fabricante") Integer idFabricante);
 }

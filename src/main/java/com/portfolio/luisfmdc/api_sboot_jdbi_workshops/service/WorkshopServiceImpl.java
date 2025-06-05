@@ -191,6 +191,30 @@ public class WorkshopServiceImpl implements WorkshopService {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
+    public ResponseEntity updateWorkshopManufacturerStatus(Integer workshopId, UpdateWorkshopManufacturerRequest updateWorkshopManufacturerRequest) {
+        Optional<Workshop> optionalWorkshop = findWorkshopEntity(workshopId);
+        if (optionalWorkshop.isEmpty()) return ResponseEntity.notFound().build();
+        Workshop workshop = optionalWorkshop.get();
+
+        Optional<Manufacturer> optionalManufacturer = workshop.getManufacturerList().stream()
+                .filter(m -> Objects.equals(m.getId(), updateWorkshopManufacturerRequest.getIdFabricante()))
+                .findFirst();
+
+        if (optionalManufacturer.isEmpty()) return ResponseEntity.notFound().build();
+        Manufacturer manufacturer = optionalManufacturer.get();
+
+        if (!Objects.equals(manufacturer.getAtiva(), updateWorkshopManufacturerRequest.getAtiva())) {
+            workshopRepository.updateWorkshopManufacturerStatus(
+                    updateWorkshopManufacturerRequest.getAtiva(),
+                    workshopId,
+                    manufacturer.getId()
+            );
+        }
+
+        return ResponseEntity.noContent().build();
+    }
+
     private Optional<Workshop> findWorkshopEntity(Integer workshopId) {
         Optional<Workshop> optionalWorkshop = workshopRepository.findWorkshop(workshopId);
         if (optionalWorkshop.isEmpty()) return Optional.empty();
