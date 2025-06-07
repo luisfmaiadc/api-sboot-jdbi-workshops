@@ -28,6 +28,32 @@ paths:
               schema:
                 $ref: '#/components/schemas/WorkshopResponse'
 
+    get:
+      summary: Obter oficinas por localização
+      operationId: findByLocation
+      tags:
+        - Workshop
+      parameters:
+        - name: cidade
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: estado
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de Oficinas por localização
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkshopResponse'
+
   /workshop/{workshopId}:
     get:
       summary: Obter informações de uma oficina

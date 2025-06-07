@@ -73,4 +73,7 @@ public interface WorkshopRepository {
 
     @SqlUpdate
     void updateWorkshopManufacturerStatus(@Bind("ativa") Boolean ativa, @Bind("id_oficina") Integer idOficina, @Bind("id_fabricante") Integer idFabricante);
+
+    @SqlQuery
+    List<Integer> findByLocation(@Bind("cidade") String cidade, @Bind("estado") String estado);
 }

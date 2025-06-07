@@ -28,4 +28,6 @@ public interface WorkshopService {
     ResponseEntity<WorkshopResponse> updateWorkshopSpecialtyStatus(Integer workshopId, UpdateWorkshopSpecialtyRequest updateWorkshopSpecialtyRequest);
 
     ResponseEntity updateWorkshopManufacturerStatus(Integer workshopId, UpdateWorkshopManufacturerRequest updateWorkshopManufacturerRequest);
+
+    ResponseEntity<List<WorkshopResponse>> findByLocation(String cidade, String estado);
 }

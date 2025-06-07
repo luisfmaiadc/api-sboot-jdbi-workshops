@@ -3,6 +3,7 @@ package com.portfolio.luisfmdc.api_sboot_jdbi_workshops.service;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.mapper.ManufacturerMapper;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.mapper.SpecialtyMapper;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.mapper.WorkshopMapper;
+import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.model.UF;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.model.Manufacturer;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.model.Specialty;
 import com.portfolio.luisfmdc.api_sboot_jdbi_workshops.model.Workshop;
@@ -213,6 +214,36 @@ public class WorkshopServiceImpl implements WorkshopService {
         }
 
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<List<WorkshopResponse>> findByLocation(String cidade, String estado) {
+        cidade = validaCidade(cidade);
+        estado = validaEstado(estado);
+        if (cidade == null && estado == null) return ResponseEntity.badRequest().build();
+
+        List<Integer> workshopsIds = workshopRepository.findByLocation(cidade, estado);
+        if (workshopsIds.isEmpty()) return ResponseEntity.noContent().build();
+        List<WorkshopResponse> workshopResponseList =  workshopsIds.stream()
+                .map(this::findWorkshopEntity)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(WorkshopMapper::toResponse)
+                .toList();
+        return ResponseEntity.ok(workshopResponseList);
+    }
+
+    private String validaCidade(String cidade) {
+        if (cidade == null || cidade.isBlank()) return null;
+        cidade = cidade.trim().replaceAll("\\s+", " ");
+        return cidade.replaceAll("(?<=[a-z])(?=[A-Z])", " ");
+    }
+
+    private String validaEstado(String estado) {
+        if (estado == null || estado.isBlank()) return null;
+        estado = estado.toUpperCase();
+        if (estado.length() != 2 || !UF.isValid(estado)) return null;
+        return estado;
     }
 
     private Optional<Workshop> findWorkshopEntity(Integer workshopId) {

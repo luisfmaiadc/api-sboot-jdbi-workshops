@@ -71,4 +71,9 @@ public class WorkshopController implements WorkshopApi {
     public ResponseEntity updateWorkshopManufacturerStatus(Integer workshopId, UpdateWorkshopManufacturerRequest updateWorkshopManufacturerRequest) {
         return workshopService.updateWorkshopManufacturerStatus(workshopId, updateWorkshopManufacturerRequest);
     }
+
+    @Override
+    public ResponseEntity<List<WorkshopResponse>> findByLocation(String cidade, String estado) {
+        return workshopService.findByLocation(cidade, estado);
+    }
 }
