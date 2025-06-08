@@ -29,8 +29,8 @@ paths:
                 $ref: '#/components/schemas/WorkshopResponse'
 
     get:
-      summary: Obter oficinas por localização
-      operationId: findByLocation
+      summary: Obter oficinas ativas por filtros
+      operationId: findByFilter
       tags:
         - Workshop
       parameters:
@@ -44,9 +44,19 @@ paths:
           required: false
           schema:
             type: string
+        - name: especialidade
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: fabricante
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         '200':
-          description: Lista de Oficinas por localização
+          description: Lista de Oficinas ativas por filtros
           content:
             application/json:
               schema:

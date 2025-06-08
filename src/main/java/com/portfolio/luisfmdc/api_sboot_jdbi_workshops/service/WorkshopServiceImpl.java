@@ -217,12 +217,15 @@ public class WorkshopServiceImpl implements WorkshopService {
     }
 
     @Override
-    public ResponseEntity<List<WorkshopResponse>> findByLocation(String cidade, String estado) {
+    public ResponseEntity<List<WorkshopResponse>> findByFilter(String cidade, String estado, String especialidade, String fabricante) {
+        Optional<Specialty> optionalSpecialty = (especialidade != null && !especialidade.isBlank()) ? workshopRepository.findSpecialtyByName(especialidade) : Optional.empty();
+        Optional<Manufacturer> optionalManufacturer = (fabricante != null && !fabricante.isBlank()) ? workshopRepository.findManufacturerByName(fabricante) : Optional.empty();
         cidade = validaCidade(cidade);
         estado = validaEstado(estado);
-        if (cidade == null && estado == null) return ResponseEntity.badRequest().build();
 
-        List<Integer> workshopsIds = workshopRepository.findByLocation(cidade, estado);
+        if (cidade == null && estado == null && optionalSpecialty.isEmpty() && optionalManufacturer.isEmpty()) return ResponseEntity.badRequest().build();
+        List<Integer> workshopsIds = validaFiltro(cidade, estado, optionalSpecialty, optionalManufacturer);
+
         if (workshopsIds.isEmpty()) return ResponseEntity.noContent().build();
         List<WorkshopResponse> workshopResponseList =  workshopsIds.stream()
                 .map(this::findWorkshopEntity)
@@ -231,6 +234,12 @@ public class WorkshopServiceImpl implements WorkshopService {
                 .map(WorkshopMapper::toResponse)
                 .toList();
         return ResponseEntity.ok(workshopResponseList);
+    }
+
+    private List<Integer> validaFiltro(String cidade, String estado, Optional<Specialty> optionalSpecialty, Optional<Manufacturer> optionalManufacturer) {
+        Integer specialtyId = optionalSpecialty.map(Specialty::getId).orElse(null);
+        Integer manufacturerId = optionalManufacturer.map(Manufacturer::getId).orElse(null);
+        return workshopRepository.findByFilter(cidade, estado, specialtyId, manufacturerId);
     }
 
     private String validaCidade(String cidade) {

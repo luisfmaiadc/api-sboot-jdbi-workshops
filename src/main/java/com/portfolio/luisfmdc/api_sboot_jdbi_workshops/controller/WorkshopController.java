@@ -73,7 +73,7 @@ public class WorkshopController implements WorkshopApi {
     }
 
     @Override
-    public ResponseEntity<List<WorkshopResponse>> findByLocation(String cidade, String estado) {
-        return workshopService.findByLocation(cidade, estado);
+    public ResponseEntity<List<WorkshopResponse>> findByFilter(String cidade, String estado, String especialidade, String fabricante) {
+        return workshopService.findByFilter(cidade, estado, especialidade, fabricante);
     }
 }

@@ -75,5 +75,13 @@ public interface WorkshopRepository {
     void updateWorkshopManufacturerStatus(@Bind("ativa") Boolean ativa, @Bind("id_oficina") Integer idOficina, @Bind("id_fabricante") Integer idFabricante);
 
     @SqlQuery
-    List<Integer> findByLocation(@Bind("cidade") String cidade, @Bind("estado") String estado);
+    List<Integer> findByFilter(@Bind("cidade") String cidade, @Bind("estado") String estado, @Bind("id_especialidade") Integer idEspecialidade, @Bind("id_fabricante") Integer idFabricante);
+
+    @SqlQuery
+    @RegisterBeanMapper(Specialty.class)
+    Optional<Specialty> findSpecialtyByName(@Bind("especialidade") String especialidade);
+
+    @SqlQuery
+    @RegisterBeanMapper(Manufacturer.class)
+    Optional<Manufacturer> findManufacturerByName(@Bind("fabricante") String fabricante);
 }
