@@ -30,4 +30,6 @@ public interface WorkshopService {
     ResponseEntity updateWorkshopManufacturerStatus(Integer workshopId, UpdateWorkshopManufacturerRequest updateWorkshopManufacturerRequest);
 
     ResponseEntity<List<WorkshopResponse>> findByFilter(String cidade, String estado, String especialidade, String fabricante);
+
+    ResponseEntity<SpecialtyResponse> findSpecialtyById(Integer specialtyId);
 }

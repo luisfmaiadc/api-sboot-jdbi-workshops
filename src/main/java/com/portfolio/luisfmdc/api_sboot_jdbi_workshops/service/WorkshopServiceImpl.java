@@ -236,6 +236,12 @@ public class WorkshopServiceImpl implements WorkshopService {
         return ResponseEntity.ok(workshopResponseList);
     }
 
+    @Override
+    public ResponseEntity<SpecialtyResponse> findSpecialtyById(Integer specialtyId) {
+        Optional<Specialty> optionalSpecialty = workshopRepository.findSpecialtyById(specialtyId);
+        return optionalSpecialty.map(specialty -> ResponseEntity.ok(SpecialtyMapper.toResponse(specialty))).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     private List<Integer> validaFiltro(String cidade, String estado, Optional<Specialty> optionalSpecialty, Optional<Manufacturer> optionalManufacturer) {
         Integer specialtyId = optionalSpecialty.map(Specialty::getId).orElse(null);
         Integer manufacturerId = optionalManufacturer.map(Manufacturer::getId).orElse(null);

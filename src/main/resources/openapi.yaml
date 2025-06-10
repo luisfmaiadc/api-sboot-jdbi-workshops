@@ -192,6 +192,26 @@ paths:
                 items:
                   $ref: '#/components/schemas/SpecialtyResponse'
 
+  /workshop/specialty/{specialtyId}:
+    get:
+      summary: Buscar especialidade por id
+      operationId: findSpecialtyById
+      tags:
+        - Specialty
+      parameters:
+        - name: specialtyId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Especialidade encontrada por id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpecialtyResponse'
+
   /workshop/new/manufacturer:
     post:
       summary: Cadastra uma nova fabricante
@@ -343,7 +363,7 @@ components:
     SpecialtyResponse:
       type: object
       properties:
-        id:
+        idEspecialidade:
           type: integer
         especialidade:
           type: string

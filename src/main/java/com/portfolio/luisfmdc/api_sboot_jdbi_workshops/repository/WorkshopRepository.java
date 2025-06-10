@@ -84,4 +84,8 @@ public interface WorkshopRepository {
     @SqlQuery
     @RegisterBeanMapper(Manufacturer.class)
     Optional<Manufacturer> findManufacturerByName(@Bind("fabricante") String fabricante);
+
+    @SqlQuery
+    @RegisterBeanMapper(Specialty.class)
+    Optional<Specialty> findSpecialtyById(@Bind("id") Integer id);
 }

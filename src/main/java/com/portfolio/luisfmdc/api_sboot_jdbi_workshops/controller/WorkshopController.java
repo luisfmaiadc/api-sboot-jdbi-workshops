@@ -76,4 +76,9 @@ public class WorkshopController implements WorkshopApi {
     public ResponseEntity<List<WorkshopResponse>> findByFilter(String cidade, String estado, String especialidade, String fabricante) {
         return workshopService.findByFilter(cidade, estado, especialidade, fabricante);
     }
+
+    @Override
+    public ResponseEntity<SpecialtyResponse> findSpecialtyById(Integer specialtyId) {
+        return workshopService.findSpecialtyById(specialtyId);
+    }
 }

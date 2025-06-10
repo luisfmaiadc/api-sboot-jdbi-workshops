@@ -18,7 +18,7 @@ public class SpecialtyMapper {
 
     public static SpecialtyResponse toResponse(Specialty specialty) {
         return new SpecialtyResponse()
-                .id(specialty.getId())
+                .idEspecialidade(specialty.getId())
                 .especialidade(specialty.getEspecialidade());
     }
 
